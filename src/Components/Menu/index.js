@@ -3,19 +3,17 @@ import "./menu.css";
 import AiIcon from "../../Assets/ai-icon.png";
 import EditIcon from "../../Assets/edit.png";
 import ChatContext from "../ChatContext";
-
 const Menu = ({ handleNewChat }) => {
     const { setActiveConversation, conversations } = useContext(ChatContext);
     const [menuOpen, setMenuOpen] = useState(false);
-
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
-
     const handleChat = (index) => {
         return () => {
             console.log("conversationlist", conversations[index]);
             setActiveConversation(conversations[index]);
+            setMenuOpen(!menuOpen);
         };
     };
 

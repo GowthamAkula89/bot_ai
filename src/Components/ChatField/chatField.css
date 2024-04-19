@@ -1,8 +1,10 @@
 .chat-field{
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     background: linear-gradient(180deg, rgba(215, 199, 244, 0.2) 0%, rgba(151, 133, 186, 0.2) 100%);
-
+    display: flex;
+    flex-direction: column;
+    gap:25px;
 }
 .app-title{
     font-size: 28px;
@@ -10,6 +12,16 @@
     line-height: 32.17px;
     text-align: left;
     color: #9785BA;
+}
+.app-hero-section{
+    text-align: center;
+}
+.hero-section-text{
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 32.17px;
+    text-align: center;
+    color: #000000;
 }
 .input-field{
     display: flex;
@@ -31,7 +43,8 @@
     font-size: 20px;
     font-weight: 400;
     background-color: #D7C7F4;
-    outline: none;
+    border-radius: 5px;
+    border: none;
 }
 @media screen and (max-width: 1285px){
     .input-value {
@@ -46,5 +59,8 @@
 @media screen and (max-width: 789px) {
     .input-value {
         width: 189px;
+    }
+    .action-button{
+        width: 56.86px;
     }
 }

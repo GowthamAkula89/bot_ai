@@ -19,7 +19,6 @@ const ChatbotPage = () => {
         localStorage.setItem("activeConversation",JSON.stringify([]));
     }
    }
-   
     return(
         <div className="chatbot-page">
             <Menu handleNewChat={handleNewChat}/>

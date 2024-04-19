@@ -16,6 +16,7 @@
 .menu-navbar{
     display: flex;
     justify-content: space-between; 
+    padding: 0 12px;
 }
 .new-chat-text{
     font-size: 20px;
