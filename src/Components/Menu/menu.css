@@ -4,6 +4,7 @@
     background-color: #D7C7F4;
     align-items: center;
     width: 100%;
+    cursor: pointer;
 }
 .menu{
     width: 208px;

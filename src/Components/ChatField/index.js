@@ -1,26 +1,43 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import "./chatField.css";
 import QnACard from "../QnACard";
 import ChatContext from "../../Components/ChatContext";
 import AiIcon from "../../Assets/ai-icon.png";
-const ChatField = () => {
+
+const ChatField = ({ handleNewChat }) => {
     const { activeConversation, setActiveConversation } = useContext(ChatContext);
     const [question, setQuestion] = useState("");
     const conversationData = require("../../Data/chatConversations.json");
+    const chatFieldRef = useRef(null);
+
     useEffect(() => {
         const savedActiveConversation = JSON.parse(localStorage.getItem("activeConversation")) || [];
         setActiveConversation(savedActiveConversation);
-    }, [setActiveConversation]); 
+        setTimeout(scrollToBottom, 0);
+    }, [setActiveConversation]);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [activeConversation]);
+
+    const scrollToBottom = () => {
+        if (chatFieldRef.current) {
+            chatFieldRef.current.scrollTop = chatFieldRef.current.scrollHeight;
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (question.trim() !== "") {
-            const answer = conversationData.find((que) => que.question === question) || "Add some more details to understand";
-            console.log("Answer", answer)
+            let answer = conversationData.find((que) => que.question.toLowerCase() === question.toLowerCase()) || null;
+            if (answer === null) {
+                answer = conversationData.find((que) => que.question.toLowerCase().includes(question.toLowerCase())) || { response: "Add some more details to understand" };
+            }
             const newConversation = { question: question, answer: answer.response };
             setActiveConversation([...activeConversation, newConversation]);
             setQuestion("");
             localStorage.setItem("activeConversation", JSON.stringify([...activeConversation, newConversation]));
+            setTimeout(scrollToBottom, 0);
         }
     };
 
@@ -29,20 +46,21 @@ const ChatField = () => {
     };
 
     return (
-        <div className="chat-field">
-            <div className="app-title">Bot AI</div>
-            <div className="app-hero-section">
-                <div className="hero-section-text">How Can I Help You Today?</div>
-                <img src={AiIcon} alt="logo-ai"/>
-            </div>
-            
-            {activeConversation.map((conversation, index) => (
-                <div key={index}>
-                    <QnACard key={index+1} question={conversation.question} isQuestion={true} />
-                    <QnACard key={index+2} answer={conversation.answer}  isAnswer={true}/>
+        <div className="chat-qna-response">
+            <div className="chat-field" ref={chatFieldRef}>
+                <div className="app-title">Bot AI</div>
+                <div className="app-hero-section">
+                    <div className="hero-section-text">How Can I Help You Today?</div>
+                    <img src={AiIcon} alt="logo-ai" />
                 </div>
-                
-            ))}
+
+                {activeConversation.map((conversation, index) => (
+                    <div key={index}>
+                        <QnACard key={index + 1} question={conversation.question} isQuestion={true} />
+                        <QnACard key={index + 2} answer={conversation.answer} isAnswer={true} />
+                    </div>
+                ))}
+            </div>
             <form className="input-field" onSubmit={handleSubmit}>
                 <input
                     className="input-value"
@@ -52,7 +70,7 @@ const ChatField = () => {
                     onChange={handleQuestionChange}
                 />
                 <button className="action-button" type="submit">Ask</button>
-                <button className="action-button" type="button">Save</button>
+                <button className="action-button" type="button" onClick={handleNewChat}>Save</button>
             </form>
         </div>
     );

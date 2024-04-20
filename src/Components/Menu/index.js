@@ -16,11 +16,14 @@ const Menu = ({ handleNewChat }) => {
             setMenuOpen(!menuOpen);
         };
     };
-
+    const handleNewChatAction = () => {
+        toggleMenu()
+        handleNewChat()
+    }
     return (
         <div>
             <div className="menu">
-                <div className="new-chat-btn" onClick={handleNewChat}>
+                <div className="new-chat-btn" onClick={handleNewChatAction}>
                     <img style={{ width: "32px", height: "32px" }} src={AiIcon} alt="img" />
                     <div className="new-chat-text">New Chat</div>
                     <img className="edit-icon" src={EditIcon} alt="" />

@@ -22,7 +22,7 @@ const ChatbotPage = () => {
     return(
         <div className="chatbot-page">
             <Menu handleNewChat={handleNewChat}/>
-            <ChatField/>
+            <ChatField handleNewChat={handleNewChat}/>
         </div>
     )
 }

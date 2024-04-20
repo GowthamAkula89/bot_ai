@@ -1,6 +1,7 @@
 import React from "react";
 import "./qnaCard.css";
 import UserIcon from "../../Assets/user-icon.png";
+import AiIcon from "../../Assets/ai-icon.png"
 const QnACard = ({question,answer, isQuestion, isAnswer}) => {
     const getTimeString = () => {
         const now = new Date();
@@ -13,7 +14,7 @@ const QnACard = ({question,answer, isQuestion, isAnswer}) => {
     };
     return(
         <div className="qna-card">
-            <img src={UserIcon} alt=""/>
+            <img src={isQuestion? UserIcon: AiIcon} alt=""/>
             <div className="qna-section">
                 <div className="qna-user">{isQuestion ? "You": "Bot AI"}</div>
                 <div className="qna-res">{isQuestion ? question : answer}</div>

@@ -1,10 +1,14 @@
-.chat-field{
-    height: 100%;
-    width: 100vw;
+.chat-qna-response{
+    height: 100vh;
     background: linear-gradient(180deg, rgba(215, 199, 244, 0.2) 0%, rgba(151, 133, 186, 0.2) 100%);
+}
+.chat-field{
+    width: 85vw;
     display: flex;
     flex-direction: column;
     gap:25px;
+    height: 89%;
+    overflow-y: scroll;
 }
 .app-title{
     font-size: 28px;
@@ -45,6 +49,9 @@
     background-color: #D7C7F4;
     border-radius: 5px;
     border: none;
+}
+.action-button:hover{
+    cursor: pointer;
 }
 @media screen and (max-width: 1285px){
     .input-value {
