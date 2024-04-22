@@ -4,7 +4,7 @@ import ChatContext from "../../Components/ChatContext";
 import Menu from "../../Components/Menu";
 import ChatField from "../../Components/ChatField";
 const ChatbotPage = () => {
-   const {activeConversation, setActiveConversation, setConversations, conversations} = useContext(ChatContext); 
+   const {activeConversation, setActiveConversation, setConversations} = useContext(ChatContext); 
    useEffect (() => {
     const chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
     setConversations(chatHistory);

@@ -29,6 +29,10 @@
     text-align: left;
 
 }
+.qna-rate{
+    display: flex;
+    gap: 25px;
+}
 .qna-date{
     font-family: Open Sans;
     font-size: 12px;

@@ -3,13 +3,14 @@ import "./chatField.css";
 import QnACard from "../QnACard";
 import ChatContext from "../../Components/ChatContext";
 import AiIcon from "../../Assets/ai-icon.png";
+import { act } from "react-dom/test-utils";
 
 const ChatField = ({ handleNewChat }) => {
     const { activeConversation, setActiveConversation } = useContext(ChatContext);
     const [question, setQuestion] = useState("");
     const conversationData = require("../../Data/chatConversations.json");
     const chatFieldRef = useRef(null);
-
+    const [rating, setRating] = useState(0);
     useEffect(() => {
         const savedActiveConversation = JSON.parse(localStorage.getItem("activeConversation")) || [];
         setActiveConversation(savedActiveConversation);
@@ -33,7 +34,7 @@ const ChatField = ({ handleNewChat }) => {
             if (answer === null) {
                 answer = conversationData.find((que) => que.question.toLowerCase().includes(question.toLowerCase())) || { response: "Add some more details to understand" };
             }
-            const newConversation = { question: question, answer: answer.response };
+            const newConversation = { question: question, answer: answer.response, rating : 0};
             setActiveConversation([...activeConversation, newConversation]);
             setQuestion("");
             localStorage.setItem("activeConversation", JSON.stringify([...activeConversation, newConversation]));
@@ -44,7 +45,13 @@ const ChatField = ({ handleNewChat }) => {
     const handleQuestionChange = (e) => {
         setQuestion(e.target.value);
     };
-
+    const handleRatingChange = (index, rating) => {
+        const updatedConversations = [...activeConversation];
+        updatedConversations[index].rating = rating;
+        console.log("updatedConversations",updatedConversations[index])
+        setActiveConversation(updatedConversations);
+        localStorage.setItem("activeConversation", JSON.stringify(updatedConversations));
+    };
     return (
         <div className="chat-qna-response">
             <div className="chat-field" ref={chatFieldRef}>
@@ -57,7 +64,7 @@ const ChatField = ({ handleNewChat }) => {
                 {activeConversation.map((conversation, index) => (
                     <div key={index}>
                         <QnACard key={index + 1} question={conversation.question} isQuestion={true} />
-                        <QnACard key={index + 2} answer={conversation.answer} isAnswer={true} />
+                        <QnACard key={index + 2} answer={conversation.answer} ratingVal ={conversation.rating} index={index} handleRatingChange ={handleRatingChange}/>
                     </div>
                 ))}
             </div>
