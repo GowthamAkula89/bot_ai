@@ -5,14 +5,13 @@ import AiIcon from "../../Assets/ai-icon.png";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
 import ChatContext from "../ChatContext";
-import Modal from "react-modal";
-const QnACard = ({ question, answer, isQuestion, index, ratingVal, handleRatingChange }) => {
-    const [showModal, setShowModal] = useState(false);
-    const [feedback, setFeedback] = useState("");
-    const [feedbackMessageIndex, setFeedbackMessageIndex] = useState(null);
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import FeedbackIcon from "../../Assets/feedback.png"
+const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, handleRatingChange, handleFeedbackData }) => {
+    const [feedback, setFeedback] = useState(feedbackVal);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [rating, setRating] = useState(ratingVal);
-    const {activeConversation, setActiveConversation, conversations, setConversations} = useContext(ChatContext);
     const getTimeString = () => {
         const now = new Date();
         const hours = now.getHours();
@@ -26,10 +25,7 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, handleRatingC
     const handleLikeDislike = (index, like) => {
         if (like) {
             setShowRatingModal(true);
-            setFeedbackMessageIndex(index);
-        } else {
-            setShowModal(true);
-            setFeedbackMessageIndex(index);
+            
         }
     };
 
@@ -38,10 +34,14 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, handleRatingC
         handleRatingChange(index, selectedRating);
         setShowRatingModal(!showRatingModal);
     };
-    const handleCancel = () => {
-        setShowModal(false);
-        
-    };
+    const handleFeedback = (e) => {
+        e.preventDefault();
+        setFeedback(e.target.value);
+    }
+    const handleFeedbackSubmit = (close) => {
+        handleFeedbackData(index, feedback);
+        close();
+    }
     return (
         <div className="qna-card">
             <img src={isQuestion ? UserIcon : AiIcon} alt="" />
@@ -52,7 +52,28 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, handleRatingC
                     <div className="qna-rate">
                         <div className="qna-date">{getTimeString()}</div>
                         <AiOutlineLike onClick={() => handleLikeDislike(index, true)} />
-                        <AiOutlineDislike onClick={() => handleLikeDislike(index, false)} />
+                        <Popup  trigger=
+                            {<AiOutlineDislike onClick={() => handleLikeDislike(index, false)} />} 
+                            modal nested>
+                            {
+                                close => (
+                                    <div className="feetback-model">
+                                        <div className="card-title">
+                                            <img style={{width:"40px", height : "42px"}} src={FeedbackIcon} alt=""/> 
+                                            <div className="card-title-text">Provide Additional Feedback</div>
+                                        </div>
+                                        
+                                        <div className="card-content">
+                                            <input  className="enter-value" onChange={handleFeedback} placeholder="     Give me feedback"/>
+
+                                            <button className="submit-btn" onClick={() => handleFeedbackSubmit(close)}>Submit</button>
+
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </Popup>
+                        
                     </div>
                 }
                 {rating > 0 && 
@@ -68,6 +89,9 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, handleRatingC
                     ))}
                 </div>
                 }
+                {feedback !== "" &&
+                    <div>{feedback}</div>
+                }
                 {showRatingModal && !isQuestion &&
                     <div className="rating">
                         {[...Array(5)].map((_, i) => (
@@ -82,23 +106,7 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, handleRatingC
                     </div>
                 }
                 
-                <Modal
-                    isOpen={showModal}
-                    onRequestClose={() => setShowModal(false)}
-                    contentLabel="Add Money Modal"
-                    className="modal"
-                    overlayClassName="modal-overlay"
-                >
-                    <div>
-                        <h2 className="card-title">Feedback</h2>
-                        <div className="add-balance">
-                            <input  className="enter-value" placeholder="     Give me feedback"/>
-                            <div className="add-cancel-btns">
-                                <button className="close-btn" onClick={handleCancel}>Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                
                 
             </div>
         </div>

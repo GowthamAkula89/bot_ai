@@ -41,3 +41,48 @@
     text-align: left;
     color: rgba(0, 0, 0, 0.62);
 }
+.feetback-model{
+    background-color: #FAF7FF;
+}
+.card-title{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.card-title-text{
+    font-family: Open Sans;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 29.96px;
+    text-align: left;
+    color: #000000;
+}
+.card-content{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin: 25px 25px 0 25px;
+    gap: 25px;
+}
+.enter-value {
+    width: 98%; 
+    max-width: 716px;
+    height: 150px; 
+    max-height: 300px; 
+    border-radius: 10px;
+    border: 1px solid #000000;
+    opacity: 0px; 
+}
+.submit-btn{
+    width: 157px;
+    height: 50px;
+    top: 533px;
+    left: 842px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 22.98px;
+    text-align: left;
+    background-color: #D7C7F4;
+    text-align: center;
+}
