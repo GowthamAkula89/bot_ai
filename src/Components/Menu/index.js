@@ -69,11 +69,11 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
                         </div>
                         <div className="conversation-list">
                             {conversations.map((conversation, index) => (
-                                <div key={index} className="conversation-section">
-                                    <div className="conversation-item" onClick={handleChat(index)}>
+                                <div key={index} className="conversation-item">
+                                    <div className="" style={{cursor:"pointer"}} onClick={handleChat(index)}>
                                         Conversation {index + 1}
                                     </div>
-                                    <RiDeleteBinFill />
+                                    <RiDeleteBinFill style={{cursor:"pointer"}} onClick={() => handleDelete(index)}/>
                                 </div>
                             ))}
                         </div>
