@@ -59,6 +59,7 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, 
                     <div className="qna-rate">
                         <div className="qna-date">{getTimeString()}</div>
                         <div onClick={() => handleLikeDislike(index, true)}>
+                            
                             <AiOutlineLike />
                         </div>
                         <Popup  trigger=
