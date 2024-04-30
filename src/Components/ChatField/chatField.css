@@ -62,6 +62,9 @@
     .input-value {
         width: 456px;
     }
+    .chat-field{
+        width: 97vw;
+    }
 }
 @media screen and (max-width: 789px) {
     .input-value {

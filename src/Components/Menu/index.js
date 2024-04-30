@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import "./menu.css";
 import AiIcon from "../../Assets/ai-icon.png";
 import EditIcon from "../../Assets/edit.png";
@@ -16,7 +16,7 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
             setActiveConversation(conversations[index]);
             localStorage.setItem("activeConversation",JSON.stringify(activeConversation));
             setChatIndex(index);
-            setMenuOpen(!menuOpen);
+            setMenuOpen(false);
         };
     };
     const handleDelete = (index) => {
@@ -28,9 +28,10 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
         setActiveConversation([]);
         localStorage.setItem("activeConversation",JSON.stringify([]));
     }
+
     const handleNewChatAction = () => {
-        toggleMenu()
         handleNewChat()
+        setMenuOpen(false);
     }
     return (
         <div>
@@ -43,10 +44,14 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
                 <div className="conversation-list">
                     {conversations.map((conversation, index) => (
                         <div key={index} className="conversation-item">
-                            <div className="" style={{cursor:"pointer"}} onClick={handleChat(index)}>
+                            <div 
+                                style={{cursor:"pointer"}} 
+                                onClick={handleChat(index)}>
                                 Conversation {index + 1}
                             </div>
-                            <RiDeleteBinFill style={{cursor:"pointer"}} onClick={() => handleDelete(index)}/>
+                            <RiDeleteBinFill 
+                                style={{cursor:"pointer"}} 
+                                onClick={() => handleDelete(index)}/>
                         </div>
                     ))}
                 </div>
@@ -62,7 +67,7 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
                 </div>
                 {menuOpen && (
                     <div className="menu-mobile-view">
-                        <div className="new-chat-btn" onClick={handleNewChat}>
+                        <div className="new-chat-btn" onClick={handleNewChatAction}>
                             <img style={{ width: "32px", height: "32px" }} src={AiIcon} alt="img" />
                             <div className="new-chat-text">New Chat</div>
                             <img className="edit-icon" src={EditIcon} alt="" />
