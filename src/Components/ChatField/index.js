@@ -4,12 +4,11 @@ import QnACard from "../QnACard";
 import ChatContext from "../../Components/ChatContext";
 import AiIcon from "../../Assets/ai-icon.png";
 
-const ChatField = ({ handleNewChat }) => {
+const ChatField = ({ handleChatSave }) => {
     const { activeConversation, setActiveConversation } = useContext(ChatContext);
     const [question, setQuestion] = useState("");
     const conversationData = require("../../Data/chatConversations.json");
     const chatFieldRef = useRef(null);
-    const [rating, setRating] = useState(0);
     useEffect(() => {
         const savedActiveConversation = JSON.parse(localStorage.getItem("activeConversation")) || [];
         setActiveConversation(savedActiveConversation);
@@ -47,9 +46,9 @@ const ChatField = ({ handleNewChat }) => {
     const handleRatingChange = (index, rating) => {
         const updatedConversations = [...activeConversation];
         updatedConversations[index].rating = rating;
-        console.log("updatedConversations",updatedConversations[index])
         setActiveConversation(updatedConversations);
         localStorage.setItem("activeConversation", JSON.stringify(updatedConversations));
+        
     };
     const handleFeedbackData = (index, feedback) => {
         const updatedConversations = [...activeConversation];
@@ -90,7 +89,7 @@ const ChatField = ({ handleNewChat }) => {
                     onChange={handleQuestionChange}
                 />
                 <button className="action-button" type="submit">Ask</button>
-                <button className="action-button" type="button" onClick={handleNewChat}>Save</button>
+                <button className="action-button" type="button" onClick={handleChatSave}>Save</button>
             </form>
         </div>
     );

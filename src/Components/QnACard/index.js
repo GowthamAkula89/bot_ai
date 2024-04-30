@@ -1,17 +1,21 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./qnaCard.css";
 import UserIcon from "../../Assets/user-icon.png";
 import AiIcon from "../../Assets/ai-icon.png";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
-import ChatContext from "../ChatContext";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import FeedbackIcon from "../../Assets/feedback.png"
+import FeedbackIcon from "../../Assets/feedback.png";
 const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, handleRatingChange, handleFeedbackData }) => {
     const [feedback, setFeedback] = useState(feedbackVal);
+    const [feedbackValue, setFeedbackValue] = useState("");
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [rating, setRating] = useState(ratingVal);
+    //console.log("rating", index+" "+ratingVal+" "+rating)
+    useEffect(() => {
+        setRating(ratingVal);
+    }, [ratingVal]);
     const getTimeString = () => {
         const now = new Date();
         const hours = now.getHours();
@@ -21,14 +25,11 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, 
         const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
         return `${formattedHours}:${formattedMinutes} ${ampm}`;
     };
-    console.log("rating-val",ratingVal);
     const handleLikeDislike = (index, like) => {
         if (like) {
             setShowRatingModal(true);
-            
         }
     };
-
     const handleStarClick = (selectedRating) => {
         setRating(selectedRating);
         handleRatingChange(index, selectedRating);
@@ -36,10 +37,15 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, 
     };
     const handleFeedback = (e) => {
         e.preventDefault();
-        setFeedback(e.target.value);
+        setFeedbackValue(e.target.value);
+        
     }
     const handleFeedbackSubmit = (close) => {
-        handleFeedbackData(index, feedback);
+        
+        const currentFeedbackValue = feedbackValue;
+        setFeedback(currentFeedbackValue);
+        console.log("feedback", currentFeedbackValue);
+        handleFeedbackData(index, currentFeedbackValue);
         close();
     }
     return (
@@ -64,7 +70,10 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, 
                                         </div>
                                         
                                         <div className="card-content">
-                                            <input  className="enter-value" onChange={handleFeedback} placeholder="     Give me feedback"/>
+                                            <input  
+                                                className="enter-value" 
+                                                onChange={handleFeedback} 
+                                                placeholder="     Give me feedback"/>
 
                                             <button className="submit-btn" onClick={() => handleFeedbackSubmit(close)}>Submit</button>
 

@@ -1,18 +1,21 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext} from "react";
 import "./menu.css";
 import AiIcon from "../../Assets/ai-icon.png";
 import EditIcon from "../../Assets/edit.png";
 import ChatContext from "../ChatContext";
-const Menu = ({ handleNewChat }) => {
-    const { setActiveConversation, conversations } = useContext(ChatContext);
+
+const Menu = ({ handleNewChat, setChatIndex }) => {
+    const {activeConversation, setActiveConversation, conversations } = useContext(ChatContext);
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
     const handleChat = (index) => {
         return () => {
-            console.log("conversationlist", conversations[index]);
+            // console.log("conversationlist", conversations[index]);
             setActiveConversation(conversations[index]);
+            localStorage.setItem("activeConversation",JSON.stringify(activeConversation));
+            setChatIndex(index);
             setMenuOpen(!menuOpen);
         };
     };
