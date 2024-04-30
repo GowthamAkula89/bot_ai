@@ -55,8 +55,7 @@
     background-color: #D7C7F4;
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    justify-content: space-around;
 }
 .menu-mobile-view{
     position: absolute;

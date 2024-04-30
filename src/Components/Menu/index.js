@@ -3,9 +3,9 @@ import "./menu.css";
 import AiIcon from "../../Assets/ai-icon.png";
 import EditIcon from "../../Assets/edit.png";
 import ChatContext from "../ChatContext";
-
+import { RiDeleteBinFill } from "react-icons/ri";
 const Menu = ({ handleNewChat, setChatIndex }) => {
-    const {activeConversation, setActiveConversation, conversations } = useContext(ChatContext);
+    const {activeConversation, setActiveConversation, conversations, setConversations } = useContext(ChatContext);
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -19,6 +19,15 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
             setMenuOpen(!menuOpen);
         };
     };
+    const handleDelete = (index) => {
+        const chatHistory = JSON.parse(localStorage.getItem("chatHistory"));
+        chatHistory.splice(index, 1);
+        console.log(chatHistory);
+        localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+        setConversations(chatHistory);
+        setActiveConversation([]);
+        localStorage.setItem("activeConversation",JSON.stringify([]));
+    }
     const handleNewChatAction = () => {
         toggleMenu()
         handleNewChat()
@@ -33,8 +42,11 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
                 </div>
                 <div className="conversation-list">
                     {conversations.map((conversation, index) => (
-                        <div className="conversation-item" key={index} onClick={handleChat(index)}>
-                            Conversation {index + 1}
+                        <div key={index} className="conversation-item">
+                            <div className="" style={{cursor:"pointer"}} onClick={handleChat(index)}>
+                                Conversation {index + 1}
+                            </div>
+                            <RiDeleteBinFill style={{cursor:"pointer"}} onClick={() => handleDelete(index)}/>
                         </div>
                     ))}
                 </div>
@@ -57,8 +69,11 @@ const Menu = ({ handleNewChat, setChatIndex }) => {
                         </div>
                         <div className="conversation-list">
                             {conversations.map((conversation, index) => (
-                                <div className="conversation-item" key={index} onClick={handleChat(index)}>
-                                    Conversation {index + 1}
+                                <div key={index} className="conversation-section">
+                                    <div className="conversation-item" onClick={handleChat(index)}>
+                                        Conversation {index + 1}
+                                    </div>
+                                    <RiDeleteBinFill />
                                 </div>
                             ))}
                         </div>

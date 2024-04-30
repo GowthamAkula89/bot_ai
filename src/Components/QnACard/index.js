@@ -15,7 +15,8 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, 
     //console.log("rating", index+" "+ratingVal+" "+rating)
     useEffect(() => {
         setRating(ratingVal);
-    }, [ratingVal]);
+        setFeedback(feedbackVal)
+    }, [ratingVal,feedbackVal]);
     const getTimeString = () => {
         const now = new Date();
         const hours = now.getHours();
@@ -57,9 +58,13 @@ const QnACard = ({ question, answer, isQuestion, index, ratingVal, feedbackVal, 
                 {!isQuestion &&
                     <div className="qna-rate">
                         <div className="qna-date">{getTimeString()}</div>
-                        <AiOutlineLike onClick={() => handleLikeDislike(index, true)} />
+                        <div onClick={() => handleLikeDislike(index, true)}>
+                            <AiOutlineLike />
+                        </div>
                         <Popup  trigger=
-                            {<AiOutlineDislike onClick={() => handleLikeDislike(index, false)} />} 
+                            {<div onClick={() => handleLikeDislike(index, false)}>
+                            <AiOutlineDislike />
+                          </div>} 
                             modal nested>
                             {
                                 close => (
